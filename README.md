@@ -1,41 +1,65 @@
-# The module [![Travis CI Build Status](https://img.shields.io/travis/com/Richienb/the-module/master.svg?style=for-the-badge)](https://travis-ci.com/Richienb/the-module)
+# neat-tap [![Travis CI Build Status](https://img.shields.io/travis/com/Richienb/neat-tap/master.svg?style=for-the-badge)](https://travis-ci.com/Richienb/neat-tap)
 
-My awesome module.
+Fast and simple TAP parser.
 
-[![NPM Badge](https://nodei.co/npm/the-module.png)](https://npmjs.com/package/the-module)
+[![NPM Badge](https://nodei.co/npm/neat-tap.png)](https://npmjs.com/package/neat-tap)
 
 ## Install
 
 ```sh
-npm install the-module
+npm install neat-tap
 ```
 
 ## Usage
 
 ```js
-const theModule = require("the-module");
+const neatTap = require("neat-tap");
 
-theModule("unicorns");
-//=> 'unicorns & rainbows'
+const tapData = `
+1..4
+ok 1 - A
+not ok 2 - B
+ok 3 - C
+not ok 4 - D
+`;
+
+(async () => {
+	await neatTap(tapData);
+	//=> { ok: false, count: 4, pass: 2, ... }
+})();
 ```
 
 ## API
 
-### theModule(input, options?)
+### neatTap(data, options?)
 
-#### input
+#### data
 
-Type: `string`
+Type: `string | Buffer | ReadableStream`
 
-Lorem ipsum.
+The TAP data to parse.
 
 #### options
 
 Type: `object`
 
-##### postfix
+##### strict
 
-Type: `string`\
-Default: `rainbows`
+Type: `boolean`\
+Default: `true`
 
-Lorem ipsum.
+Whether to fail when provided with non-TAP data.
+
+##### bail
+
+Type: `boolean`\
+Default: `false`
+
+Whether to stop parsing when a bail line is hit.
+
+##### omitVersion
+
+Type: `boolean`\
+Default: `false`
+
+Ignore TAP version lines.

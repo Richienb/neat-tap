@@ -1,8 +1,8 @@
 {
-	"name": "the-module",
+	"name": "neat-tap",
 	"version": "0.0.0",
-	"description": "My awesome module.",
-	"repository": "https://github.com/Richienb/the-module.git",
+	"description": "Fast and simple TAP parser.",
+	"repository": "https://github.com/Richienb/neat-tap.git",
 	"author": "Richie Bendall <richiebendall@gmail.com>",
 	"license": "MIT",
 	"main": "index.js",
@@ -17,8 +17,17 @@
 		"lint": "xo",
 		"test": "yarn lint && ava"
 	},
-	"keywords": [],
-	"dependencies": {},
+	"keywords": [
+		"tap",
+		"test",
+		"parse",
+		"object"
+	],
+	"dependencies": {
+		"strip-instance": "^1.0.0",
+		"tap-parser": "^10.0.1",
+		"to-readable-stream": "^2.1.0"
+	},
 	"devDependencies": {
 		"ava": "^3.5.1",
 		"eslint-config-richienb": "^0.3.0",
