@@ -25,8 +25,15 @@ not ok 4 - D
 
 (async () => {
 	await neatTap(tapData);
-	//=> { ok: false, count: 4, pass: 2, ... }
+	//=> { version: undefined, ok: false ... }
 })();
+```
+
+## CLI Usage
+
+```sh
+$ tap test.js | neat-tap
+{ version: undefined, ok: false ... }
 ```
 
 ## API

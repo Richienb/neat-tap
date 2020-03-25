@@ -6,9 +6,13 @@
 	"author": "Richie Bendall <richiebendall@gmail.com>",
 	"license": "MIT",
 	"main": "index.js",
+	"bin": {
+		"neat-tap": "cli.js"
+	},
 	"files": [
 		"index.js",
-		"index.d.ts"
+		"index.d.ts",
+		"cli.js"
 	],
 	"engines": {
 		"node": ">=10"
@@ -24,7 +28,6 @@
 		"object"
 	],
 	"dependencies": {
-		"strip-instance": "^1.0.0",
 		"tap-parser": "^10.0.1",
 		"to-readable-stream": "^2.1.0"
 	},

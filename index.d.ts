@@ -19,21 +19,18 @@ declare namespace neatTap {
 		omitVersion?: boolean
 	}
 
-	export interface Assertion {
-		ok: boolean
-		id: number
-		name: string
-		fullname: string
-	}
-
 	export interface Result {
+		version?: number
 		ok: boolean
-		count: number
-		pass: number
-		fail: number
-		bailout: boolean
-		todo: number
-		skip: number
+		stats: {
+			bailout: boolean
+			todo: number
+			skip: 0
+			time?: number
+			total: number
+			passes: number
+			failures: number
+		}
 		plan: {
 			start: number
 			end: number
@@ -41,10 +38,17 @@ declare namespace neatTap {
 			skipReason: string
 			comment: string
 		}
-		failures: (Assertion & { ok: false })[]
-		time: null | number
-		passes: (Assertion & { ok: true })[]
-		assertions: Assertion[]
+		assertions: {
+			id: number
+			comment?: string
+			name?: string
+			ok: boolean
+			skipped: boolean
+			skipReason?: string
+			todo?: string
+			time?: number
+			extra?: unknown
+		}[]
 	}
 }
 
@@ -65,7 +69,7 @@ declare namespace neatTap {
  *
  * (async () => {
  * 	await neatTap(tapData);
- * 	//=> { ok: false, count: 4, pass: 2, ... }
+ * 	//=> { version: undefined, ok: false ... }
  * })();
  * ```
 */

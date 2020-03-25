@@ -2,14 +2,53 @@
 
 const TapParser = require("tap-parser")
 const toReadableStream = require("to-readable-stream")
-const stripInstance = require("strip-instance")
 const { pipeline } = require("stream")
 
 const parseTapStream = (data, options = {}) => new Promise((resolve, reject) => {
-	const parser = new TapParser(options, (result) => {
-		result.assertions = [...result.passes, ...result.failures].sort((a, b) => a.id - b.id)
+	const parser = new TapParser(options)
 
-		resolve(stripInstance(result))
+	let version
+	const assertions = []
+	let comment
+
+	parser.on("version", (result) => {
+		version = result
+	})
+
+	parser.on("comment", (result) => {
+		comment = result
+	})
+
+	parser.on("assert", ({ id, name, ok, skip, todo, time, diag }) => {
+		assertions.push({
+			id,
+			comment,
+			name,
+			ok,
+			skipped: Boolean(skip),
+			skipReason: skip === true ? undefined : skip,
+			todo: todo === true ? undefined : todo,
+			time,
+			extra: diag,
+		})
+	})
+
+	parser.on("complete", ({ count, pass, fail, ok, bailout, todo, skip, plan, time }) => {
+		resolve({
+			version,
+			ok,
+			stats: {
+				bailout,
+				todo,
+				skip,
+				time: time === null ? undefined : time,
+				total: count,
+				passes: pass,
+				failures: fail,
+			},
+			plan: { ...plan },
+			assertions,
+		})
 	})
 
 	pipeline(data, parser, reject)
@@ -17,7 +56,6 @@ const parseTapStream = (data, options = {}) => new Promise((resolve, reject) => 
 
 module.exports = async (data, options) => {
 	options = {
-		passes: true,
 		strict: true,
 		...options,
 	}
