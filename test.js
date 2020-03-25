@@ -64,7 +64,6 @@ test("main", async (t) => {
 				ok: false,
 				skipped: false,
 				skipReason: undefined,
-				hasTodo: false,
 				todo: undefined,
 				time: undefined,
 				extra: undefined,
